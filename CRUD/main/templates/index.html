@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="{% static  'css/index.css' %}">
+</head>
+
+<body>
+    <h1>My first Blog</h1>
+    {% if user.is_authenticated %}
+    {{user}} 님 안녕하세요!
+    {% endif %}
+    <div class="create">
+        <button type="submit" class="create-btn"><a href="{% url 'accounts:login' %}">✏️ 로그인</a></button>
+        <button type="submit" class="create-btn"><a href="{% url 'accounts:signup' %}">✏️ 회원가입</a></button>
+        <button type="submit" class="create-btn"><a href="{% url 'accounts:logout' %}">✏️ 로그아웃</a></button>
+        <button type="submit" class="create-btn"><a href="{% url 'main:create' %}">✏️ 글 작성</a></button>
+    </div>
+    <div class="write-wrapper">
+        {% for write in all_write %}
+        <div class="write">
+            <a href="{% url 'main:detail' write.id %}">
+                <div>{{write.title}}</div>
+                <div>{{write.contents}}</div>
+                <div>{{write.updated_at}}</div>
+                <div class="update-delete">
+                    <div><a href="{% url 'main:update' write.id %}">수정</a></div>
+                    <div><a href="{% url 'main:delete' write.id %}">삭제</a></div>
+                </div>
+            </a>
+        </div>
+
+        {% endfor %}
+
+    </div>
+</body>
+
+</html>
